@@ -7,7 +7,11 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Handle("POST","/payload",lib.GetHooks)
-	log.Fatal(r.Run(":8585"))
+	r.Handle("GET","/", func(c *gin.Context) {
+		c.JSON(200,"welcome")
+	})
+	log.Println(r.Run(":8585"))
 }
