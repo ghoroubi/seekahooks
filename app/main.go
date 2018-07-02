@@ -1,17 +1,16 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"webhook/lib"
 	"log"
+	"net/http"
+	"fmt"
+	."webhook/lib"
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.Handle("POST","/payload",lib.GetHooks)
-	r.Handle("GET","/", func(c *gin.Context) {
-		c.JSON(200,"welcome")
+	http.HandleFunc("/payload", Chain(GetHooksfunc, Method("POST"), Logger()))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "welcome...")
 	})
-	log.Println(r.Run(":8585"))
+	log.Println(http.ListenAndServe(":8585", nil))
 }
