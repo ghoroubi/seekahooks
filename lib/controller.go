@@ -21,7 +21,6 @@ func GetHooks(c *gin.Context) {
 		return
 	}
 
-
 	fmt.Println(string(body))
 
 }
